@@ -1,0 +1,69 @@
+name: L_1
+source code: |
+  input: '001122'
+  blank: ' '
+  start state: first
+    
+  table:
+    first:
+      [0]: {write: '*', R: second}
+      [1,2]: {R: Net}
+      ['*']: R
+      [' ']: {R: Da}
+    second: 
+      [0]: R
+      ['*']: R
+      [1]: {write: '*', R: third}
+      [2]: {R: Net}
+    third: 
+      ['*']: R
+      [0]: {R: Net}
+      [' ']: {L: Net}
+      [1]: R
+      [2]: {write: '*', R: fouth}
+    fouth:
+      [0,1]: {R: Net}
+      [2]: {L: go_to_begin}
+      [' ']: {L: check}
+    go_to_begin:
+      [0,1,2,'*']: L
+      [' ']: {R: first}
+    check:
+      ['*']: L
+      [0,1,2]: {L: Net}
+      [' ']: {R: Da}    
+    Net:
+      [0,1,2,'*']: R
+      [' ']: {write: N, R: Net2}
+    Net2:
+      [' ']: {write: e, R: Net3}
+    Net3:
+      [' ']: {write: t, L: clean}
+    Da:
+      [0,1,2,'*']: R
+      [' ']: {write: D, R: Da2}
+    Da2:
+      [' ']: {write: a, L: clean}    
+    clean:
+      [D,a,N,e,t]: L
+      [0,1,2,'*']: {write: ' ', L}
+      [' ']: {R: end}
+    
+    end:
+
+
+      
+positions:
+  first: {x: 490.61, y: 176.42, fixed: false}
+  second: {x: 621.27, y: 233.82, fixed: false}
+  third: {x: 456.58, y: 229.01, fixed: false}
+  fouth: {x: 568.32, y: 186.98, fixed: false}
+  go_to_begin: {x: 539.17, y: 40.5, fixed: false}
+  check: {x: 413.4, y: 253.16, fixed: false}
+  Net: {x: 533.51, y: 334.4, fixed: false}
+  Net2: {x: 454.99, y: 459.18, fixed: false}
+  Net3: {x: 306.88, y: 464.11, fixed: false}
+  Da: {x: 350.21, y: 119.19, fixed: false}
+  Da2: {x: 237.85, y: 216.89, fixed: false}
+  clean: {x: 201.57, y: 362.97, fixed: false}
+  end: {x: 106.59, y: 255.91, fixed: false}

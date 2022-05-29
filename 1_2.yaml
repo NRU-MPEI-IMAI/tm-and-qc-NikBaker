@@ -1,0 +1,53 @@
+name: unary multiplication
+source code: |+
+  input: '1*1'
+  blank: ' '
+  start state: to_end_of_srt
+    
+  table:
+    to_end_of_srt:
+      [1, 0, '=', '*']: R
+      [' ']: {write: '=', L: to_begin_of_str}
+    to_begin_of_str:
+      [1, 0, '=', '*']: L
+      [' ']: {R: right}
+    right:
+      [1]: R
+      ['*']: {R: second_mult}
+    second_mult:
+      [1]: {write: 0, R: check_next}
+    check_next:
+      [1, 0, '=']: L
+      ['*']: {L: first_mult}
+    first_mult:
+      [1]: {write: 0, R: go_to_end}
+      [0]: L
+      [' ']: {R: return_1}
+    go_to_end:
+      [1, 0, '=', '*']: R
+      [' ']: {write: 1, L: check_next}
+    return_1:
+      [0]: {write: 1, R}
+      ['*']: {R: search_next_1}
+    search_next_1:
+      [0]: R
+      [1]: {write: 0, R: check_next}
+      ['=']: {L: return_1_in_second_mult}
+    return_1_in_second_mult:
+      [0]: {write: 1, L}
+      ['*']: {R: end}
+    
+    end:
+
+positions:
+  to_end_of_srt: {x: 460.64, y: 468.55, fixed: false}
+  to_begin_of_str: {x: 318.29, y: 461.85, fixed: false}
+  right: {x: 224.65, y: 353.7, fixed: false}
+  second_mult: {x: 288.89, y: 218.7, fixed: false}
+  check_next: {x: 352.56, y: 75.98, fixed: false}
+  first_mult: {x: 385.21, y: 201.1, fixed: false}
+  go_to_end: {x: 237.49, y: 154.84, fixed: false}
+  return_1: {x: 415.69, y: 44.47, fixed: false}
+  search_next_1: {x: 492.46, y: 149.96, fixed: false}
+  return_1_in_second_mult: {x: 628.45, y: 194.11, fixed: false}
+  end: {x: 610, y: 335.87, fixed: false}

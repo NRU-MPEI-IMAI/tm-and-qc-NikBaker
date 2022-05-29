@@ -1,0 +1,68 @@
+name: '2_2'
+source code: |
+  input: '{()(}[]'
+  blank: ' '
+  start state: first
+    
+  table:
+    first:
+      ['{','(', '[','x']: R
+      ['}']: {write: 'x', L: check_open_1}
+      [')']: {write: 'x', L: check_open_2}
+      [']']: {write: 'x', L: check_open_3}
+      [' ']: {L: check}
+    check_open_1:
+      ['{']: {write: 'x', L: go_to_left}
+      ['x']: L
+      ['(', '[',' ']: {L: wrong}
+    check_open_2:
+      ['(']: {write: 'x', L: go_to_left}
+      ['x']: L
+      ['{', '[',' ']: {L: wrong}
+    check_open_3:
+      ['[']: {write: 'x', L: go_to_left}
+      ['x']: L
+      ['{', '(',' ']: {L: wrong}
+    go_to_left:
+      ['{','(','[','}',')',']','x']: L
+      [' ']: {R: first}
+    check:
+      ['x']: L
+      ['{','(','[','}',')',']']: {R: wrong}
+      [' ']: {R: correct}
+     
+    wrong:
+      ['{','(','[','}',')',']','x']: L
+      [' ']: {R: clean_and_No}
+    clean_and_No: 
+      ['{','(','[','}',')',']','x']: {write: ' ', R}
+      [' ']: {write: N, R: No}
+    correct:
+      ['{','(','[','}',')',']','x']: L
+      [' ']: {R: clean_and_Yes}
+    clean_and_Yes: 
+      ['{','(','[','}',')',']','x']: {write: ' ', R}
+      [' ']: {write: Y, R: Yes}
+    No:
+      [' ']: {write: o, R: end}
+    Yes:
+      [' ']: {write: e, R: S}
+    S:
+      [' ']: {write: s, R: end}
+    end:
+      
+positions:
+  first: {x: 216.87, y: 279.82}
+  check_open_1: {x: 377.29, y: 454.92}
+  check_open_2: {x: 218.66, y: 449.9}
+  check_open_3: {x: 555.04, y: 464.01}
+  go_to_left: {x: 542.72, y: 128.1}
+  check: {x: 216.94, y: 128.94}
+  wrong: {x: 381.57, y: 129.73}
+  clean_and_No: {x: 509.35, y: 191.39, fixed: false}
+  correct: {x: 84.85, y: 130.16}
+  clean_and_Yes: {x: 162.78, y: 249.22, fixed: false}
+  No: {x: 647.18, y: 139.66, fixed: false}
+  Yes: {x: 321.52, y: 282.71, fixed: false}
+  S: {x: 481.91, y: 309.87, fixed: false}
+  end: {x: 640.42, y: 282.75}

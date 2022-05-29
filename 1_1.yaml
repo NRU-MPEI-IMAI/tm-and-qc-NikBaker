@@ -1,0 +1,34 @@
+name: binary increment
+source code: |+
+  # unary addition.
+  input: '11+111'
+  blank: ' '
+  start state: right
+    
+  table:
+    right:
+      [1,+]: R
+      ' ' : {write: =, L: left}
+    left:
+      [1,+,=]: L
+      [' ',0]: {R: change_1}
+    change_1:
+      [1]: {write: 0, R: update_res}
+      [+]: R
+      [=]: {L: return_1}
+    update_res:
+      [1,+,=]: R
+      ' ' : {write: 1, L: left}
+    return_1:
+      [0]: {write: 1, L}
+      [+]: L
+      ' ': {R: end}
+    end:
+
+positions:
+  right: {x: 230, y: 250}
+  left: {x: 361.09, y: 278.59, fixed: false}
+  change_1: {x: 477.14, y: 198.67, fixed: false}
+  update_res: {x: 351.41, y: 133.79, fixed: false}
+  return_1: {x: 460.27, y: 345.04, fixed: false}
+  end: {x: 589.69, y: 289.83, fixed: false}

@@ -1,0 +1,50 @@
+name: '2_3'
+source code: |
+  input: '10 100 1'
+  blank: '-'
+  start state: first
+    
+  table:
+    first:
+      ['x','y']: R
+      [1]: {write: 'x', R: search_next_word}
+      [0]: {write: 'y', R: search_next_word}
+      [' ','-']: {write: '<',R: go_to_right}
+    search_next_word:
+      [0,1]: R
+      [' ']: {R: first}
+      ['-']: {L: go_to_left}
+    go_to_left:
+      [0,1,'x','y',' ']: L
+      ['-']: {R: first}
+    go_to_right:
+      [0,1,'x','y',' ']: R
+      ['-']: {L: recovery}
+    recovery:
+      [0,1,' ','x','y']: {write: '-', L}
+      ['<']: {write: '-', L: go_to_space}
+    go_to_space:
+      ['x']: {write: 1, L}
+      ['y']: {write: 0, L}
+      #[0,1]: L
+      [' ']: {write: '-', L: clear}
+    clear:
+      [0,1,'x','y',' ']: {write: '-', L}
+      ['-']: {R: go_to_begin_of_word}
+    go_to_begin_of_word:
+      ['-']: R
+      [0,1]: {L: end}
+    
+    end:
+      
+positions:
+  first: {x: 90.86, y: 338.76}
+  search_next_word: {x: 171.75, y: 458.01, fixed: false}
+  go_to_left: {x: 264.54, y: 366.45}
+  min: {x: 347.77, y: 261.22, fixed: false}
+  go_to_right: {x: 204.83, y: 228.09, fixed: false}
+  recovery: {x: 319.61, y: 129.26, fixed: false}
+  go_to_space: {x: 453.53, y: 191.11}
+  clear: {x: 592.64, y: 190.25, fixed: false}
+  go_to_begin_of_word: {x: 672.77, y: 312.28}
+  end: {x: 766.47, y: 393.89}
